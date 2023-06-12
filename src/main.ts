@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import VueApolloComponents from '@vue/apollo-components';
 import App from './App.vue';
 import AppLoading from './components/common/app-loading.vue';
 import { setupDirectives } from './directives';
@@ -6,6 +7,7 @@ import { setupRouter } from './router';
 import { setupAssets } from './plugins';
 import { setupStore } from './store';
 import { setupI18n } from './locales';
+import * as apolloProvider from './apollo.provider';
 
 async function setupApp() {
   // import assets: js、css
@@ -26,6 +28,10 @@ async function setupApp() {
 
   // vue router
   await setupRouter(app);
+
+  // apollo provider
+  app.use(apolloProvider.provider);
+  app.use(VueApolloComponents);
 
   setupI18n(app);
 
