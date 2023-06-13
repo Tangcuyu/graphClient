@@ -1,0 +1,8 @@
+query {
+	contacts {
+		id
+		firstName
+		lastName
+		email
+	}
+}

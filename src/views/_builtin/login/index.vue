@@ -68,7 +68,7 @@ const activeModule = computed(() => {
 });
 
 const bgThemeColor = computed(() => (theme.darkMode ? getColorPalette(theme.themeColor, 7) : theme.themeColor));
-const bgImage = computed(() => (theme.darkMode ? 'url(/g8_login_dark.svg)' : 'url(/g8_login_dark.svg)'));
+const bgImage = computed(() => (theme.darkMode ? 'url(/g8_login_dark.svg)' : 'url(/g8_login_light.svg)'));
 
 const bgColor = computed(() => {
   const COLOR_WHITE = '#ffffff';

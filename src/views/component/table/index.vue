@@ -1,7 +1,8 @@
 <template>
-  <div class="h-full overflow-hidden">
-    <ApolloQuery
-      :query="(gql: any) => gql`
+  <div class="h-full">
+    <n-space :vertical="true" :size="16">
+      <ApolloQuery
+        :query="(gql: any) => gql`
         query {
           contacts {
             id
@@ -11,32 +12,40 @@
           }
         } 
       `"
-    >
-      <template #default="{ result: { loading, error, data } }">
-        <!-- Loading -->
-        <div v-if="loading" class="loading apollo">Loading...</div>
+      >
+        <template #default="{ result: { loading, error, data } }">
+          <!-- Loading -->
+          <div v-if="loading" class="loading apollo">Loading...</div>
 
-        <!-- Error -->
-        <div v-else-if="error" class="error apollo">An error occurred</div>
+          <!-- Error -->
+          <div v-else-if="error" class="error apollo">An error occurred</div>
 
-        <!-- Result -->
-        <div v-else-if="data" class="result apollo">{{ data.contacts[0].email }}</div>
-
-        <!-- No result -->
-        <div v-else class="no-result apollo">No result :(</div>
-      </template>
-    </ApolloQuery>
-    <n-card title="表格" class="h-full shadow-sm rounded-16px">
-      <n-space :vertical="true">
-        <n-space>
-          <n-button @click="getDataSource">有数据</n-button>
-          <n-button @click="getEmptyDataSource">空数据</n-button>
+          <!-- Result -->
+          <div v-else-if="data" class="result apollo">
+            <n-card title="GraphQL CRUD" class="h-full shadow-sm rounded-16px">
+              <n-space :vertical="true">
+                <loading-empty-wrapper class="h-480px" :loading="loading" :empty="empty">
+                  <n-data-table :columns="graphqlColums" :data="data.contacts" :flex-height="true" class="h-480px" />
+                </loading-empty-wrapper>
+              </n-space>
+            </n-card>
+          </div>
+          <!-- No result -->
+          <div v-else class="no-result apollo">No result :(</div>
+        </template>
+      </ApolloQuery>
+      <n-card title="表格" class="h-full shadow-sm rounded-16px">
+        <n-space :vertical="true">
+          <n-space>
+            <n-button @click="getDataSource">有数据</n-button>
+            <n-button @click="getEmptyDataSource">空数据</n-button>
+          </n-space>
+          <loading-empty-wrapper class="h-480px" :loading="loading" :empty="empty">
+            <n-data-table :columns="columns" :data="dataSource" :flex-height="true" class="h-480px" />
+          </loading-empty-wrapper>
         </n-space>
-        <loading-empty-wrapper class="h-480px" :loading="loading" :empty="empty">
-          <n-data-table :columns="columns" :data="dataSource" :flex-height="true" class="h-480px" />
-        </loading-empty-wrapper>
-      </n-space>
-    </n-card>
+      </n-card>
+    </n-space>
   </div>
 </template>
 
@@ -55,17 +64,6 @@ interface DataSource {
   address: string;
 }
 
-// const { result } = useQuery(gql`
-//   query vue2 {
-//     contacts {
-//       id
-//       firstName
-//       lastName
-//       email
-//     }
-//   }
-// `)
-
 const { loading, startLoading, endLoading, empty, setEmpty } = useLoadingEmpty();
 
 const columns: DataTableColumn[] = [
@@ -82,6 +80,49 @@ const columns: DataTableColumn[] = [
   {
     title: 'Address',
     key: 'address',
+    align: 'center'
+  },
+  {
+    key: 'action',
+    title: 'Action',
+    align: 'center',
+    render: () => {
+      return (
+        <NSpace justify={'center'}>
+          <NButton size={'small'} onClick={() => {}}>
+            编辑
+          </NButton>
+          <NPopconfirm onPositiveClick={() => {}}>
+            {{
+              default: () => '确认删除',
+              trigger: () => <NButton size={'small'}>删除</NButton>
+            }}
+          </NPopconfirm>
+        </NSpace>
+      );
+    }
+  }
+];
+
+const graphqlColums: DataTableColumn[] = [
+  {
+    title: 'id',
+    key: 'id',
+    align: 'center'
+  },
+  {
+    title: 'FirstName',
+    key: 'firstName',
+    align: 'center'
+  },
+  {
+    title: 'LastName',
+    key: 'lastName',
+    align: 'center'
+  },
+  {
+    title: 'Email',
+    key: 'email',
     align: 'center'
   },
   {
