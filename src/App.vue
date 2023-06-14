@@ -13,9 +13,14 @@
 </template>
 
 <script setup lang="ts">
+import { provide } from 'vue';
 import { dateZhCN, zhCN } from 'naive-ui';
+import { DefaultApolloClient } from '@vue/apollo-composable';
 import { subscribeStore, useThemeStore } from '@/store';
 import { useGlobalEvents } from '@/composables';
+import { apolloClient } from './apollo.provider';
+
+provide(DefaultApolloClient, apolloClient);
 
 const theme = useThemeStore();
 

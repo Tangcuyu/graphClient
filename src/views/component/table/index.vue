@@ -3,8 +3,8 @@
     <n-space :vertical="true" :size="16">
       <ApolloQuery
         :query="(gql: any) => gql`
-        query {
-          contacts {
+        query ($id: ID){
+          contacts(where: {id: $id}) {
             id
             firstName
             lastName
@@ -12,6 +12,7 @@
           }
         } 
       `"
+        :variables="{ id }"
       >
         <template #default="{ result: { loading, error, data } }">
           <!-- Loading -->
@@ -22,6 +23,15 @@
 
           <!-- Result -->
           <div v-else-if="data" class="result apollo">
+            <!-- <ApolloMutation :mutation="(gql: any) => gql`
+              mutation deleteContact ($id: ID) {
+                deleteContacts(where: {id: $id}) {
+                  bookmark
+                  nodesDeleted
+                  relationshipsDeleted
+                }
+              }
+            `" :variables="{ id }"> -->
             <n-card title="GraphQL CRUD" class="h-full shadow-sm rounded-16px">
               <n-space :vertical="true">
                 <loading-empty-wrapper class="h-480px" :loading="loading" :empty="empty">
@@ -29,6 +39,7 @@
                 </loading-empty-wrapper>
               </n-space>
             </n-card>
+            <!-- </ApolloMutation> -->
           </div>
           <!-- No result -->
           <div v-else class="no-result apollo">No result :(</div>
@@ -63,7 +74,7 @@ interface DataSource {
   age: number;
   address: string;
 }
-
+let id: string;
 const { loading, startLoading, endLoading, empty, setEmpty } = useLoadingEmpty();
 
 const columns: DataTableColumn[] = [
@@ -131,6 +142,7 @@ const graphqlColums: DataTableColumn[] = [
     align: 'center',
     render: () => {
       return (
+        // <template v-slot="{ mutate, loading, error }">
         <NSpace justify={'center'}>
           <NButton size={'small'} onClick={() => {}}>
             编辑
@@ -142,6 +154,7 @@ const graphqlColums: DataTableColumn[] = [
             }}
           </NPopconfirm>
         </NSpace>
+        // </template>
       );
     }
   }
