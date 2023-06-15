@@ -23,36 +23,26 @@
 
           <!-- Result -->
           <div v-else-if="data" class="result apollo">
-            <!-- <ApolloMutation :mutation="(gql: any) => gql`
-              mutation deleteContact ($id: ID) {
-                deleteContacts(where: {id: $id}) {
-                  bookmark
-                  nodesDeleted
-                  relationshipsDeleted
-                }
-              }
-            `" :variables="{ id }"> -->
-            <n-card title="GraphQL CRUD" class="h-full shadow-sm rounded-16px">
+            <n-card title="GraphQL Component" class="h-full shadow-sm rounded-16px">
               <n-space :vertical="true">
                 <loading-empty-wrapper class="h-480px" :loading="loading" :empty="empty">
                   <n-data-table :columns="graphqlColums" :data="data.contacts" :flex-height="true" class="h-480px" />
                 </loading-empty-wrapper>
               </n-space>
             </n-card>
-            <!-- </ApolloMutation> -->
           </div>
           <!-- No result -->
           <div v-else class="no-result apollo">No result :(</div>
         </template>
       </ApolloQuery>
-      <n-card title="表格" class="h-full shadow-sm rounded-16px">
+      <n-card title="GraphQL Composition API" class="h-full shadow-sm rounded-16px">
         <n-space :vertical="true">
           <n-space>
-            <n-button @click="getDataSource">有数据</n-button>
-            <n-button @click="getEmptyDataSource">空数据</n-button>
+            <n-button @click="getDataSource">获取数据</n-button>
+            <n-button @click="getEmptyDataSource">清空数据</n-button>
           </n-space>
           <loading-empty-wrapper class="h-480px" :loading="loading" :empty="empty">
-            <n-data-table :columns="columns" :data="dataSource" :flex-height="true" class="h-480px" />
+            <n-data-table :columns="graphqlColums" :data="dataSource" :flex-height="true" class="h-480px" />
           </loading-empty-wrapper>
         </n-space>
       </n-card>
@@ -64,56 +54,17 @@
 import { onMounted, ref } from 'vue';
 import { NSpace, NButton, NPopconfirm } from 'naive-ui';
 import type { DataTableColumn } from 'naive-ui';
+import gql from 'graphql-tag';
+import { useQuery } from '@vue/apollo-composable';
 import { useLoadingEmpty } from '@/hooks';
-import { getRandomInteger } from '@/utils';
-// import gql from "graphql-tag";
-// import { useQuery } from '@vue/apollo-composable'
 
 interface DataSource {
-  name: string;
-  age: number;
-  address: string;
+  firstName: string;
+  lastName: string;
+  email: string;
 }
 let id: string;
 const { loading, startLoading, endLoading, empty, setEmpty } = useLoadingEmpty();
-
-const columns: DataTableColumn[] = [
-  {
-    title: 'Name',
-    key: 'name',
-    align: 'center'
-  },
-  {
-    title: 'Age',
-    key: 'age',
-    align: 'center'
-  },
-  {
-    title: 'Address',
-    key: 'address',
-    align: 'center'
-  },
-  {
-    key: 'action',
-    title: 'Action',
-    align: 'center',
-    render: () => {
-      return (
-        <NSpace justify={'center'}>
-          <NButton size={'small'} onClick={() => {}}>
-            编辑
-          </NButton>
-          <NPopconfirm onPositiveClick={() => {}}>
-            {{
-              default: () => '确认删除',
-              trigger: () => <NButton size={'small'}>删除</NButton>
-            }}
-          </NPopconfirm>
-        </NSpace>
-      );
-    }
-  }
-];
 
 const graphqlColums: DataTableColumn[] = [
   {
@@ -162,16 +113,19 @@ const graphqlColums: DataTableColumn[] = [
 
 const dataSource = ref<DataSource[]>([]);
 
+const { result } = useQuery(gql`
+  query ($id: ID) {
+    contacts(where: { id: $id }) {
+      id
+      firstName
+      lastName
+      email
+    }
+  }
+`);
+
 function createDataSource(): DataSource[] {
-  return Array(100)
-    .fill(1)
-    .map((_item, index) => {
-      return {
-        name: `Name${index}`,
-        age: getRandomInteger(30, 20),
-        address: '中国'
-      };
-    });
+  return result.value.contacts;
 }
 
 function getDataSource() {
