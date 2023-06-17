@@ -18,6 +18,7 @@ module.exports = {
     'import/core-modules': ['uno.css', '~icons/*', 'virtual:svg-icons-register']
   },
   rules: {
+    '@typescript-eslint/no-unused-vars': 'off',
     'import/order': [
       'error',
       {
