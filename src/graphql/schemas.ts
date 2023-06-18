@@ -1,30 +1,22 @@
 import gql from 'graphql-tag';
 
-const CONTACT_FRAGMENT = gql`
-  fragment name on Contact {
-    firstName
-    lastName
-  }
-`;
-
 export const ALL_CONTACTS = gql`
-  ${CONTACT_FRAGMENT}
-  query {
+  query allContacts {
     contacts {
       id
-      ...name
+      firstName
+      lastName
       email
     }
   }
 `;
 
 export const SEARCH_CONTACTS = gql`
-  ${CONTACT_FRAGMENT}
-
-  query ($id: ID) {
+  query byId($id: ID) {
     contacts(where: { id: $id }) {
       id
-      ...name
+      firstName
+      lastName
       email
     }
   }

@@ -5,10 +5,16 @@
         <n-space :vertical="true">
           <n-space>
             <n-button @click="getDataSource">刷新数据</n-button>
-            <n-button @click="getEmptyDataSource">清空数据</n-button>
+            <n-button @click="getEmptyDataSource">清空前端显示的数据</n-button>
           </n-space>
           <loading-empty-wrapper class="h-480px" :loading="loading" :empty="empty">
-            <n-data-table :columns="graphqlColums" :data="dataSource" :flex-height="true" class="h-480px" />
+            <n-data-table
+              :columns="graphqlColums"
+              :data="dataSource"
+              :flex-height="true"
+              :pagination="pagination"
+              class="h-480px"
+            />
           </loading-empty-wrapper>
         </n-space>
       </n-card>
@@ -17,18 +23,20 @@
 </template>
 
 <script setup lang="tsx">
-import { onMounted, ref, toRefs } from 'vue';
+import { onMounted, ref, toRefs, computed } from 'vue';
 import { NSpace, NButton, NPopconfirm } from 'naive-ui';
 import type { DataTableColumn } from 'naive-ui';
-import { useQuery } from '@vue/apollo-composable';
+import { useQuery, useMutation } from '@vue/apollo-composable';
 import { logErrorMessages } from '@vue/apollo-util';
 import { useLoadingEmpty } from '@/hooks';
-import { ALL_CONTACTS, SEARCH_CONTACTS } from '../../graphql/schemas';
+import { ALL_CONTACTS, DEL_CONTACT, SEARCH_CONTACTS } from '../../graphql/schemas';
+// import { ApolloCache } from "@apollo/client/core";
 
 /*
  * 定义表格相关数据结构：数据源接口 DataSource；表格列： graphqlColums；
  */
 interface DataSource {
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -38,6 +46,24 @@ interface SearchOptions {
   id: string;
   limit: number;
 }
+const dataSource = ref<DataSource[]>([]);
+
+const pagination = {
+  pageSize: 5
+};
+
+/*
+ * 删除操作：Graphql Mutation
+ */
+const { mutate: deleteById, onError: onDelError } = useMutation(DEL_CONTACT, () => ({
+  fetchPolicy: 'network-only'
+}));
+
+onDelError(error => {
+  if (process.env.NODE_ENV !== 'production') {
+    logErrorMessages(error);
+  }
+});
 
 const graphqlColums: DataTableColumn[] = [
   {
@@ -64,13 +90,18 @@ const graphqlColums: DataTableColumn[] = [
     key: 'action',
     title: 'Action',
     align: 'center',
-    render: () => {
+    render: (row, index) => {
       return (
         <NSpace justify={'center'}>
           <NButton size={'small'} onClick={() => {}}>
             编辑
           </NButton>
-          <NPopconfirm onPositiveClick={() => {}}>
+          <NPopconfirm
+            onPositiveClick={async () => {
+              await deleteById({ id: dataSource.value[index].id });
+              await getDataSource();
+            }}
+          >
             {{
               default: () => '确认删除',
               trigger: () => <NButton size={'small'}>删除</NButton>
@@ -81,16 +112,28 @@ const graphqlColums: DataTableColumn[] = [
     }
   }
 ];
-const dataSource = ref<DataSource[]>([]);
 
-// 加载状态及清空
+/*
+ * 加载状态及清空
+ */
 const { startLoading, endLoading, empty, setEmpty } = useLoadingEmpty();
 
-// 定义prop，传入Graphql 搜索选项
-// const prop = defineProps<{
-//   searchOptions: Record<string, any>  // Record<string, any> 类型为：key为string类型，value为任意类型的索引类型；替代object来用，更加语义化
-// }>()
+/*
+ * 查询ALL
+ */
+const { result: allContacts, loading, onError, refetch } = useQuery(ALL_CONTACTS, { fetchPolicy: 'cache-and-network' });
 
+onError(error => {
+  if (process.env.NODE_ENV !== 'production') {
+    logErrorMessages(error);
+  }
+});
+
+const contacts = computed(() => allContacts.value?.contacts ?? []);
+
+/*
+ * 定义查询byId
+ */
 const prop = defineProps<{
   searchOptions: SearchOptions;
 }>();
@@ -108,41 +151,34 @@ onResult(() => {
 
   if (resultById && resultById.value) {
     if (resultById.value.contacts.length === 0) {
-      dataSource.value = createDataSource();
+      dataSource.value = contacts.value;
     }
   }
 });
 
-// 查询Graphql
-const {
-  result: allContacts,
-  loading,
-  onError,
-  onResult: onAllResult
-} = useQuery(ALL_CONTACTS, { fetchPolicy: 'cache-and-network' });
+/*
+ * 私有方法
+ */
 
-onError(error => {
-  logErrorMessages(error);
-});
+//  function createDataSource(): DataSource[] {
+//   if (allContacts && allContacts.value) {
+//     return allContacts.value.contacts
+//   } else {
+//     await refetch()
+//     return []
+//   }
+// }
 
-onAllResult(() => {
-  getDataSource();
-});
-
-function createDataSource(): DataSource[] {
+async function getDataSource() {
+  await refetch();
   if (allContacts && allContacts.value) {
-    return allContacts.value.contacts;
+    startLoading();
+    setTimeout(() => {
+      dataSource.value = allContacts.value.contacts;
+      endLoading();
+      setEmpty(!dataSource.value.length);
+    }, 0);
   }
-  return [];
-}
-
-function getDataSource() {
-  startLoading();
-  setTimeout(() => {
-    dataSource.value = createDataSource();
-    endLoading();
-    setEmpty(!dataSource.value.length);
-  }, 1000);
 }
 
 function getEmptyDataSource() {
@@ -151,7 +187,7 @@ function getEmptyDataSource() {
     dataSource.value = [];
     endLoading();
     setEmpty(!dataSource.value.length);
-  }, 1000);
+  }, 0);
 }
 
 onMounted(() => {
