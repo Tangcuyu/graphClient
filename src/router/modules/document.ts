@@ -60,7 +60,7 @@ const document: AuthRoute.Route = {
     }
   ],
   meta: {
-    title: '文档',
+    title: '设计系统',
     i18nTitle: 'message.routes.document._value',
     icon: 'mdi:file-document-multiple-outline',
     order: 2

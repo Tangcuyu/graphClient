@@ -8,7 +8,7 @@ const dashboard: AuthRoute.Route = {
       path: '/dashboard/analysis',
       component: 'self',
       meta: {
-        title: '分析页',
+        title: '研发效能',
         requiresAuth: true,
         icon: 'icon-park-outline:analysis',
         i18nTitle: 'message.routes.dashboard.analysis'
@@ -19,7 +19,7 @@ const dashboard: AuthRoute.Route = {
       path: '/dashboard/workbench',
       component: 'self',
       meta: {
-        title: '工作台',
+        title: '运维监控',
         requiresAuth: true,
         icon: 'icon-park-outline:workbench',
         i18nTitle: 'message.routes.dashboard.workbench'

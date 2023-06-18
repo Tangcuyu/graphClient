@@ -8,11 +8,11 @@ const locale: LocaleMessages<I18nType.Schema> = {
     routes: {
       dashboard: {
         _value: 'Dashboard',
-        analysis: 'Analysis',
-        workbench: 'Workbench'
+        analysis: 'Effectiveness',
+        workbench: 'DevOps'
       },
       document: {
-        _value: 'Document',
+        _value: 'Design System',
         vue: 'Vue Document',
         vite: 'Vite Document',
         naive: 'NaiveUI Document',

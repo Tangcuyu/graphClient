@@ -8,11 +8,11 @@ const locale: LocaleMessages<I18nType.Schema> = {
     routes: {
       dashboard: {
         _value: '仪表盘',
-        analysis: '分析页',
-        workbench: '工作台'
+        analysis: '研发效能',
+        workbench: '运维监控'
       },
       document: {
-        _value: '文档',
+        _value: '设计系统',
         vue: 'Vue文档',
         vite: 'Vite文档',
         naive: 'NaiveUI文档',
