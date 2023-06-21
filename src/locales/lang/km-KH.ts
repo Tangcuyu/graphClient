@@ -29,6 +29,7 @@ const locale: LocaleMessages<I18nType.Schema> = {
         _value: 'មុខងារជំនួយ',
         charts: {
           _value: 'តារាង​ Chart',
+          graph: 'แผนภูมิ',
           echarts: 'តារាង ECharts',
           antv: 'AntV'
         },

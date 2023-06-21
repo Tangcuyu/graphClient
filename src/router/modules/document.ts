@@ -8,7 +8,7 @@ const document: AuthRoute.Route = {
       path: '/document/vue',
       component: 'self',
       meta: {
-        title: 'vue文档',
+        title: 'Design Token',
         i18nTitle: 'message.routes.document.vue',
         requiresAuth: true,
         icon: 'logos:vue'

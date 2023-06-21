@@ -8,7 +8,7 @@ const dashboard: AuthRoute.Route = {
       path: '/dashboard/analysis',
       component: 'self',
       meta: {
-        title: '研发效能',
+        title: '效能总览',
         requiresAuth: true,
         icon: 'icon-park-outline:analysis',
         i18nTitle: 'message.routes.dashboard.analysis'

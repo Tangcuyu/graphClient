@@ -1,50 +1,65 @@
 <template>
   <n-card :bordered="false" class="rounded-16px shadow-sm">
-    <div class="flex-y-center justify-between">
-      <div class="flex-y-center">
-        <icon-local-avatar class="text-70px" />
-        <div class="pl-12px">
-          <h3 class="text-18px font-semibold">早安，{{ auth.userInfo.userName }}, 今天又是充满活力的一天！</h3>
-          <p class="leading-30px text-#999">今日多云转晴，20℃ - 25℃！</p>
-        </div>
-      </div>
-      <n-space :size="24" :wrap="false">
-        <n-statistic v-for="item in statisticData" :key="item.id" class="whitespace-nowrap" v-bind="item"></n-statistic>
-      </n-space>
-    </div>
+    <Graphin :data="state.data" :layout="state.layout"></Graphin>
   </n-card>
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '@/store';
+import { reactive, onMounted } from 'vue';
+// import { useAuthStore } from "@/store";
+import type { GraphinData } from '@antv/graphin';
+import Graphin, { Utils } from 'antv-graphin-vue';
+// const { DragCanvas, ZoomCanvas, DragNode, ResizeCanvas } = Behaviors;
+// const { MiniMap } = Components;
 
 defineOptions({ name: 'DashboardWorkbenchHeader' });
 
-const auth = useAuthStore();
+// const auth = useAuthStore();
 
-interface StatisticData {
-  id: number;
-  label: string;
-  value: string;
+// interface StatisticData {
+//   id: number;
+//   label: string;
+//   value: string;
+// }
+
+interface GraphConfig {
+  data: GraphinData;
+  layout: {
+    type: string;
+  };
 }
 
-const statisticData: StatisticData[] = [
-  {
-    id: 0,
-    label: '项目数',
-    value: '25'
+// const statisticData: StatisticData[] = [
+//   {
+//     id: 0,
+//     label: "项目数",
+//     value: "25",
+//   },
+//   {
+//     id: 1,
+//     label: "待办",
+//     value: "4/16",
+//   },
+//   {
+//     id: 2,
+//     label: "消息",
+//     value: "12",
+//   },
+// ];
+
+const state: GraphConfig = reactive({
+  data: {
+    nodes: [],
+    edges: []
   },
-  {
-    id: 1,
-    label: '待办',
-    value: '4/16'
-  },
-  {
-    id: 2,
-    label: '消息',
-    value: '12'
+  layout: {
+    type: 'force'
   }
-];
+});
+
+onMounted(() => {
+  state.data = Utils.mock(10).circle().graphin();
+});
 </script>
 
 <style scoped></style>

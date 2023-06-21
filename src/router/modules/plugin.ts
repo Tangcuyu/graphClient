@@ -8,6 +8,17 @@ const plugin: AuthRoute.Route = {
       path: '/plugin/charts',
       component: 'multi',
       children: [
+        // {
+        //   name: 'plugin_charts_graph',
+        //   path: '/plugin/charts/graph',
+        //   component: 'self',
+        //   meta: {
+        //     title: 'Graph',
+        //     i18nTitle: 'message.routes.plugin.charts.graph',
+        //     requiresAuth: true,
+        //     icon: 'simple-icons:apacheecharts'
+        //   }
+        // },
         {
           name: 'plugin_charts_echarts',
           path: '/plugin/charts/echarts',

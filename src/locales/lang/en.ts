@@ -8,27 +8,28 @@ const locale: LocaleMessages<I18nType.Schema> = {
     routes: {
       dashboard: {
         _value: 'Dashboard',
-        analysis: 'Effectiveness',
-        workbench: 'DevOps'
+        analysis: 'Effectiveness-OverView',
+        workbench: 'DevOps-OverView'
       },
       document: {
         _value: 'Design System',
-        vue: 'Vue Document',
-        vite: 'Vite Document',
-        naive: 'NaiveUI Document',
-        project: 'Project Document',
-        'project-link': 'Project Document(href)'
+        vue: 'Design Token',
+        vite: 'Base Component',
+        naive: 'MIS Component',
+        project: 'GIS Component',
+        'project-link': 'LDS Document(href)'
       },
       component: {
-        _value: 'Component',
-        button: 'Button',
-        card: 'Card',
-        table: 'Table'
+        _value: 'Effectiveness',
+        button: 'Version Management',
+        card: 'Bug Management',
+        table: 'JIRA Management'
       },
       plugin: {
-        _value: 'Plugin',
+        _value: 'DevOps',
         charts: {
           _value: 'Chart',
+          graph: 'Graph',
           echarts: 'ECharts',
           antv: 'AntV'
         },
@@ -50,7 +51,7 @@ const locale: LocaleMessages<I18nType.Schema> = {
         super: 'Super Auth'
       },
       function: {
-        _value: 'Function',
+        _value: 'UI Automatic Test',
         tab: 'System Tab'
       },
       exception: {

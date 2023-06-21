@@ -8,27 +8,28 @@ const locale: LocaleMessages<I18nType.Schema> = {
     routes: {
       dashboard: {
         _value: '仪表盘',
-        analysis: '研发效能',
-        workbench: '运维监控'
+        analysis: '效能总览',
+        workbench: '监控总览'
       },
       document: {
         _value: '设计系统',
-        vue: 'Vue文档',
-        vite: 'Vite文档',
-        naive: 'NaiveUI文档',
-        project: '项目文档',
-        'project-link': '项目文档(外链)'
+        vue: 'Design Token',
+        vite: '元组件库',
+        naive: 'MIS组件库',
+        project: 'GIS组件库',
+        'project-link': 'LDS文档(外链)'
       },
       component: {
-        _value: '组件示例',
-        button: '按钮',
-        card: '卡片',
-        table: '表格'
+        _value: '研发效能',
+        button: '版本发布',
+        card: 'BUG跟踪',
+        table: 'JIRA信息'
       },
       plugin: {
-        _value: '插件示例',
+        _value: '运维监控',
         charts: {
           _value: '图表',
+          graph: 'Graph',
           echarts: 'ECharts',
           antv: 'AntV'
         },
@@ -50,7 +51,7 @@ const locale: LocaleMessages<I18nType.Schema> = {
         super: '超级管理员可见'
       },
       function: {
-        _value: '功能',
+        _value: 'UI自动化测试',
         tab: 'Tab页签'
       },
       exception: {
