@@ -1,7 +1,17 @@
 import { nextTick, effectScope, onScopeDispose, ref, watch } from 'vue';
 import type { ComputedRef, Ref } from 'vue';
 import * as echarts from 'echarts/core';
-import { BarChart, GaugeChart, LineChart, PictorialBarChart, PieChart, RadarChart, ScatterChart } from 'echarts/charts';
+import {
+  BarChart,
+  GaugeChart,
+  LineChart,
+  PictorialBarChart,
+  PieChart,
+  RadarChart,
+  ScatterChart,
+  SankeyChart,
+  GraphChart
+} from 'echarts/charts';
 import type {
   BarSeriesOption,
   GaugeSeriesOption,
@@ -9,7 +19,9 @@ import type {
   PictorialBarSeriesOption,
   PieSeriesOption,
   RadarSeriesOption,
-  ScatterSeriesOption
+  ScatterSeriesOption,
+  SankeySeriesOption,
+  GraphSeriesOption
 } from 'echarts/charts';
 import {
   DatasetComponent,
@@ -41,6 +53,8 @@ export type ECOption = echarts.ComposeOption<
   | PictorialBarSeriesOption
   | RadarSeriesOption
   | GaugeSeriesOption
+  | SankeySeriesOption
+  | GraphSeriesOption
   | TitleComponentOption
   | LegendComponentOption
   | TooltipComponentOption
@@ -64,6 +78,8 @@ echarts.use([
   PictorialBarChart,
   RadarChart,
   GaugeChart,
+  SankeyChart,
+  GraphChart,
   LabelLayout,
   UniversalTransition,
   CanvasRenderer

@@ -6,6 +6,7 @@ const locale: LocaleMessages<I18nType.Schema> = {
       title: '图数据可视化系统'
     },
     routes: {
+      about: '关于',
       dashboard: {
         _value: '仪表盘',
         analysis: '效能总览',
@@ -77,8 +78,7 @@ const locale: LocaleMessages<I18nType.Schema> = {
         role: '角色管理',
         route: '路由管理',
         user: '用户管理'
-      },
-      about: '关于'
+      }
     }
   }
 };

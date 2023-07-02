@@ -6,6 +6,7 @@ const locale: LocaleMessages<I18nType.Schema> = {
       title: 'GraphClient Admin'
     },
     routes: {
+      about: 'About',
       dashboard: {
         _value: 'Dashboard',
         analysis: 'Effectiveness-OverView',
@@ -77,8 +78,7 @@ const locale: LocaleMessages<I18nType.Schema> = {
         role: 'Role',
         route: 'Route',
         user: 'User'
-      },
-      about: 'About'
+      }
     }
   }
 };

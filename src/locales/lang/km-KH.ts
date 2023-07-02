@@ -6,6 +6,7 @@ const locale: LocaleMessages<I18nType.Schema> = {
       title: 'ប្រព័ន្ធគ្រប់គ្រង'
     },
     routes: {
+      about: 'អំពីប្រព័ន្ធ',
       dashboard: {
         _value: 'ផ្ទាំងទិន្នន័យ',
         analysis: 'ផ្ទាំងវិភាគ',
@@ -77,8 +78,7 @@ const locale: LocaleMessages<I18nType.Schema> = {
         role: 'សិទ្ធី',
         route: 'ផ្លូវប្រព័ន្ធ',
         user: 'អ្នកប្រើប្រាស់'
-      },
-      about: 'អំពីប្រព័ន្ធ'
+      }
     }
   }
 };
