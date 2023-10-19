@@ -4,3 +4,5 @@ import api from './api';
 export function setupMockServer() {
   createProdMockServer(api);
 }
+
+export * from './model';

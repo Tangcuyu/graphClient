@@ -1,6 +1,6 @@
 <template>
   <dark-mode-container class="flex-center h-full" :inverted="theme.footer.inverted">
-    <span>Copyright ©2023 Clearing Admin</span>
+    <span>Copyright ©2023 Tangcuyu</span>
   </dark-mode-container>
 </template>
 
