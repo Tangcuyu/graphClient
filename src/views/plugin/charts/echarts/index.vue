@@ -1,30 +1,30 @@
 <template>
   <n-space :vertical="true" :size="16">
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
+    <n-card :bordered="false" class="rounded-16px shadow-sm gap">
       <div ref="pieRef" class="h-400px"></div>
     </n-card>
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
+    <n-card :bordered="false" class="rounded-16px shadow-sm gap">
       <div ref="lineRef" class="h-400px"></div>
     </n-card>
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
+    <n-card :bordered="false" class="rounded-16px shadow-sm gap">
       <div ref="barRef" class="h-400px"></div>
     </n-card>
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
+    <n-card :bordered="false" class="rounded-16px shadow-sm gap">
       <div ref="pictorialBarRef" class="h-600px"></div>
     </n-card>
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
+    <n-card :bordered="false" class="rounded-16px shadow-sm gap">
       <div ref="scatterRef" class="h-600px"></div>
     </n-card>
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
+    <n-card :bordered="false" class="rounded-16px shadow-sm gap">
       <div ref="radarRef" class="h-400px"></div>
     </n-card>
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
+    <n-card :bordered="false" class="rounded-16px shadow-sm gap">
       <div ref="sankeyRef" class="h-400px"></div>
     </n-card>
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
+    <n-card :bordered="false" class="rounded-16px shadow-sm gap">
       <div ref="graphRef" class="h-400px"></div>
     </n-card>
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
+    <n-card :bordered="false" class="rounded-16px shadow-sm gap">
       <div ref="gaugeRef" class="h-640px"></div>
     </n-card>
   </n-space>
@@ -2982,4 +2982,8 @@ onUnmounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.gap {
+  margin: var(--card-gap);
+}
+</style>
